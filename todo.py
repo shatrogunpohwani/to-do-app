@@ -24,7 +24,26 @@ def one_framework(name):
     framework = mongo.db.users
 
     single = framework.find_one({'name':name})
-    output = {'name':single['name'],'language':single['language']}    
+    
+    if single:
+         output = {'name':single['name'],'language':single['language']} 
+    else:
+         output = 'no results found'         
+
+    return jsonify({'results':output})
+
+@app.route("/framework",methods = ['POST'])
+def add():
+
+    framework = mongo.db.users
+
+    name = request.json['name']
+    language=request.json['language']
+
+    framework_id = framework.insert({'name':name,'language':language})
+    new_framework=framework.find_one({'_id':framework_id})
+
+    output = {'name':new_framework['name'],'language':new_framework['language']}
 
     return jsonify({'results':output})
 
