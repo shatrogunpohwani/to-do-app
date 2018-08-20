@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask.ext.pymongo import PyMongo
+from bson.objectid import ObjectId
 
 app=Flask(__name__)
 
@@ -47,6 +48,30 @@ def add():
 
     return jsonify({'results':output})
 
+#@app.route("/framework/<name>",methods = ['PUT'])
+#def update(name):
+
+   # framework = mongo.db.users
+
+    #frameworks = mongo.db.framework.find_one({"_id": ObjectId(id)})  
+    #if frameworks:
+     #   framework.save(frameworks)
+      #  return "updated"
+
+   # frameworks=[identity for identity in framework if identity['name']==name]
+   # frameworks[0]['name']=request.json['name']
+   # return jsonify({'results':frameworks[0]})
+
+@app.route("/framework/<id>",methods = ['DELETE'])
+def remove(id):
+    framework = mongo.db.users
+
+    frameworks = framework.find_one({"_id":ObjectId(id)})
+    fworks=framework.remove(frameworks)
+    if fworks:
+        return "deleted"
+    else :
+        return "no id found"    
 
 
 app.run()
