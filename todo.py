@@ -48,19 +48,21 @@ def add():
 
     return jsonify({'results':output})
 
-#@app.route("/framework/<name>",methods = ['PUT'])
-#def update(name):
+@app.route("/framework/<id>",methods = ['PUT'])
+def update(id):
 
-   # framework = mongo.db.users
+    framework = mongo.db.users
 
-    #frameworks = mongo.db.framework.find_one({"_id": ObjectId(id)})  
+    frameworks = framework.find_one({"_id": ObjectId(id)})  
+
+    frameworks['language']=request.json['language']
     #if frameworks:
-     #   framework.save(frameworks)
-      #  return "updated"
+    framework.save(frameworks)
+    return "updated"
 
-   # frameworks=[identity for identity in framework if identity['name']==name]
-   # frameworks[0]['name']=request.json['name']
-   # return jsonify({'results':frameworks[0]})
+    #frameworks=[identity for identity in framework if identity['name']==name]
+    #frameworks[0]['name']=request.json['name']
+    #return jsonify({'results':frameworks[0]})#
 
 @app.route("/framework/<id>",methods = ['DELETE'])
 def remove(id):
@@ -74,4 +76,4 @@ def remove(id):
         return "no id found"    
 
 
-app.run()
+app.run(debug = True )
